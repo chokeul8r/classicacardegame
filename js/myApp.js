@@ -45,42 +45,39 @@ for(let i = 0; i < enemies; i++){
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-let Player = function() {
-    this.x = 200;
-    this.y = 400;
-    this.sprite = 'images/char-boy.png'
-}
-
-Player.prototype.update = function() {
-    if(this.y <= 0){
-        alert("Game Over! You Win!");
-        this.x = 200;
-        this.y = 400;
+class Player {
+    constructor(px,py,sprite){
+      this.x = px;
+      this.y = py;
+      this.sprite = sprite;
     }
-}
-
-Player.prototype.render = function() {
-   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
-
-Player.prototype.handleInput = function(direction) {
-    if (direction === "left" && this.x >= 25) {
-      this.x -= 25;
+    update() {
+      if(this.y <= 0){
+          alert("Game Over! You Win!");
+          this.x = 200;
+          this.y = 400;
+      }
     }
-    if (direction === "right" && this.x <= 375) {
-      this.x += 25;
+    render() {
+      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
-    if (direction === "up" && this.y >= 0) {
-      this.y -= 25;
+    handleInput(e) {
+      if (e === "left" && this.x >= 25) {
+        this.x -= 25;
+      }
+      if (e === "right" && this.x <= 375) {
+        this.x += 25;
+      }
+      if (e === "up" && this.y >= 0) {
+        this.y -= 25;
+      }
+      if (e === "down" && this.y <= 380) {
+        this.y += 25;
+      }
     }
-    if (direction === "down" && this.y <= 380) {
-      this.y += 25;
-    }
-  };
-
-// Place the player object in a variable called player
-let player = new Player();
-
+  }
+  // Place the player object in a variable called player
+  let player = new Player(200, 400, 'images/char-boy.png')
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
