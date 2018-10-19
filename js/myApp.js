@@ -39,7 +39,7 @@ let cordArray = [
 ];
 
 for(let i = 0; i < enemies; i++){
-allEnemies.push(new Enemy(`${cordArray[i].x}`,`${cordArray[i].y}`,`${Math.ceil((Math.random() * 100) + 75)}`, 'images/enemy-bug.png'));
+    allEnemies.push(new Enemy(`${cordArray[i].x}`,`${cordArray[i].y}`,`${Math.ceil((Math.random() * 100) + 75)}`, 'images/enemy-bug.png'));
 }
 
 // Now write your own player class
@@ -52,7 +52,11 @@ let Player = function() {
 }
 
 Player.prototype.update = function() {
-    
+    if(this.y <= 0){
+        alert("Game Over! You Win!");
+        this.x = 200;
+        this.y = 400;
+    }
 }
 
 Player.prototype.render = function() {
