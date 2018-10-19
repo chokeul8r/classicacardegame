@@ -1,34 +1,34 @@
 // Enemies our player must avoid
-let Enemy = function(ex,ey,speed) {
+class Enemy {
+    constructor(sx, sy, speed, sprite) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-    this.x = ex; // position x
-    this.y = ey; // position y
-    this.speed = Math.random() * 100 * speed;
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
-}
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
+      this.x = sx;
+      this.y = sy;
+      this.speed = speed;
+      this.sprite = sprite;
+    }
+    // Update the enemy's position, required method for game
+    // Parameter: dt, a time delta between ticks
+    
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x = this.x + this.speed * dt;
-}
-
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    // This is attempting to draw somthing that doesn't exist yet
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y)
-}
+    update(dt) {
+      this.x = this.x + this.speed * dt;
+       if(this.x >= 505) {
+        this.x = -100;
+      }
+    }
+    // Draw the enemy on the screen, required method for game
+    render() {
+      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    } 
+  }
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-
 let Player = function() {
     this.x = 200;
     this.y = 400;
@@ -47,8 +47,22 @@ Player.prototype.render = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-let enemy1 = new Enemy(200,200,5);
-let allEnemies = [enemy1];
+
+let enemies = 6;
+let allEnemies = [];
+let cordArray = [
+  {x:0,y:65},
+  {x:0,y:145},
+  {x:0,y:225},
+  {x:300,y:65},
+  {x:300,y:145},
+  {x:300,y:225}
+];
+
+for(let i = 0; i < enemies; i++){
+  allEnemies.push(new Enemy(`${cordArray[i].x}`,`${cordArray[i].y}`,`${Math.ceil((Math.random() * 100) + 75)}`, 'images/enemy-bug.png'));
+}
+
 let player = new Player();
 
 
