@@ -1,11 +1,16 @@
+let gameScore = document.getElementById('score');
+let gameLives = document.getElementById('lives');
+
+class Game {
+  constructor() {
+    this.lives = 3;
+    this.score = 0; 
+  }
+}
+
+let game = new Game(3, 0); 
+
 // Enemies our player must avoid
-// class InitGame {
-//   constructor(state, lives, score) {
-//     this.state = state;
-//     this.lives = lives;
-//     this.score = score; 
-//   }
-// }
 class Enemy {
     constructor(sx, sy, width, height, speed, sprite) {
     // Variables applied to each of our instances go here,
@@ -39,16 +44,16 @@ class Enemy {
 let enemies = 6;
 let allEnemies = [];
 let cordArray = [
-{x:-150,y:65},
-{x:-100,y:145},
-{x:-50,y:225},
 {x:250,y:65},
-{x:300,y:145},
-{x:375,y:225}
+{x:-150,y:145},
+{x:250,y:225},
+{x:-250,y:65},
+{x:350,y:145},
+{x:-375,y:225}
 ];
 
 for(let i = 0; i < enemies; i++){
-    allEnemies.push(new Enemy(cordArray[i].x,cordArray[i].y,75 ,80 ,Math.ceil((Math.random() * 75) + 50), 'images/enemy-bug.png'));
+    allEnemies.push(new Enemy(cordArray[i].x,cordArray[i].y,75 ,80 ,Math.ceil((Math.random() * 25) + 50), 'images/enemy-bug.png'));
 }
 
 // Now write your own player class
@@ -73,13 +78,30 @@ class Player {
   update(dt) {
     this.checkForCrossing(dt);
     this.checkForCollisions(dt);
+    this.updateScore(dt);
+    this.checkLives(dt);    
+  }
+  updateScore() {
+    if(game.lives === 0) {
+      game.score = 0;
+    } else if (game.lives > 0) {
+      gameScore.innerHTML = game.score;
+    } 
+  }
+  checkLives() {
+    if (game.lives === 0) {
+      alert('Game Over!');
+      game.lives = 3;
+    }
+    gameLives.innerHTML = game.lives;
   }
   checkForCrossing() {
     if(this.y <= 0){
-      alert("Game Over! You Win!");
+      alert("100 Points!");
       this.x = 200;
       this.y = 400;
-    };
+      game.score += 100;
+    }
   }
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -92,7 +114,9 @@ class Player {
         && this.y < myEnemy.y + myEnemy.height
         && this.y + this.height > myEnemy.y) {
         this.x = 200;
-        this.y = 400;  
+        this.y = 400;
+        game.lives--;
+        console.log(game.lives);  
       };
     };
   }

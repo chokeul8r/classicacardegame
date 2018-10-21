@@ -2,4 +2,7 @@ body {
     text-align: center;
 }
 
-
+.inline {
+    display: inline;
+    margin-right: 10px;
+}
